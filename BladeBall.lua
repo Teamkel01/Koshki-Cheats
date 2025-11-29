@@ -1997,16 +1997,13 @@ RunService.RenderStepped:Connect(function()
     local ball = GetBall()
     if not ball then return end
 
-	if Ball:GetAttribute("target") == Players.LocalPlayer.Name then
-
 	local Speed = Ball.zoomies.VectorVelocity.Magnitude
     local distance = (ball.Position - char.HumanoidRootPart.Position).Magnitude
 
-    if distance / Speed < 1 then
-		CREATEIHA(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+    if Ball:GetAttribute("target") == Players.LocalPlayer.Name and distance / Speed < 1 then
         VirtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
         VirtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
-		end
+		CREATEIHA(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
     end
 end)
 
