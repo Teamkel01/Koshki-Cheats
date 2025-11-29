@@ -1,4 +1,6 @@
 ## IHA
+
+```lua
 function CREATEIHA(TIME, SIZE)
 	local TweenService = game:GetService("TweenService")
 	
@@ -16,6 +18,4 @@ function CREATEIHA(TIME, SIZE)
 	TweenService:Create(IHA, TweenInfo.new(TIME), {Size = Vector2.new(SIZE,SIZE)}):Play()
 	TweenService:Create(IHA, TweenInfo.new(TIME), {Transparency = 1}):Play()
 end
-```lua
-
 ```
