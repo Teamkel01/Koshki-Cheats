@@ -2288,10 +2288,6 @@ local section = GUI:Section({
 	text = "MoveMent"
 }, Tab)
 
-local section = GUI:Section({
-	text = "MoveMent"
-}, Tab)
-
 local Toggle = GUI:Toggle({
 	text = "Velocity",
 	callback = function(ToggleActive)
@@ -2344,6 +2340,10 @@ local Tab = GUI:CreateTab({
 	Text = "Visuals",
 	icon = "rbxassetid://6034767608"
 })
+
+local section = GUI:Section({
+	text = "Esp"
+}, Tab)
 
 local Toggle = GUI:Toggle({
 	text = "Murderer Esp",
