@@ -1968,6 +1968,24 @@ local function GetBall()
     end
 end
 
+function CREATEIHA(TIME, SIZE, CF)
+	local TweenService = game:GetService("TweenService")
+
+	local IHA = Instance.new("ImageHandleAdornment")
+	IHA.Parent = workspace
+	IHA.Color3 = Color3.fromRGB(150,140,200)
+	IHA.Adornee = game.Workspace
+	IHA.AlwaysOnTop = true
+	IHA.Size = Vector2.new(0,0)
+	IHA.Image = "rbxassetid://17608119070"
+	IHA.ZIndex = 1
+	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0) - Vector3.new(0,3,0)
+
+	game:GetService("Debris"):AddItem(IHA, TIME)
+	TweenService:Create(IHA, TweenInfo.new(TIME), {Size = Vector2.new(SIZE,SIZE)}):Play()
+	TweenService:Create(IHA, TweenInfo.new(TIME), {Transparency = 1}):Play()
+end
+
 local autoparry = false
 
 RunService.RenderStepped:Connect(function()
@@ -1979,11 +1997,16 @@ RunService.RenderStepped:Connect(function()
     local ball = GetBall()
     if not ball then return end
 
+	if Ball:GetAttribute("target") == Players.LocalPlayer.Name then
+
+	local Speed = Ball.zoomies.VectorVelocity.Magnitude
     local distance = (ball.Position - char.HumanoidRootPart.Position).Magnitude
 
-    if distance < 30 then
+    if distance / Speed < 0.5 then
+		CREATEIHA(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
         VirtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
         VirtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+		end
     end
 end)
 
