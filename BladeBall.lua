@@ -1988,6 +1988,8 @@ end
 
 local autoparry = false
 local parry = false
+local lastParry = 0
+local parryCooldown = 0.01
 
 RunService.RenderStepped:Connect(function()
     if not autoparry then return end
@@ -2001,17 +2003,21 @@ RunService.RenderStepped:Connect(function()
 	local Speed = ball.zoomies.VectorVelocity.Magnitude
     local distance = (ball.Position - char.HumanoidRootPart.Position).Magnitude
 
-    if ball:GetAttribute("target") == Players.LocalPlayer.Name and parry == false and distance / Speed < 0.6 then
-		parry = true
+if ball:GetAttribute("target") == Players.LocalPlayer.Name 
+and not parry 
+and (tick() - lastParry) >= parryCooldown 
+and distance / Speed < 0.6 then
+    
+    parry = true
+    lastParry = tick()
 
-        VirtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-        VirtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
-		CREATEIHA(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+    VirtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
+    VirtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+    CREATEIHA(1, 15, player.Character.HumanoidRootPart.CFrame)
 
-		task.wait()
-
-		parry = false
-    end
+    task.wait()
+    parry = false
+end
 end)
 
 
