@@ -19,3 +19,8 @@ function CREATEIHA(TIME, SIZE)
 	TweenService:Create(IHA, TweenInfo.new(TIME), {Transparency = 1}):Play()
 end
 ```
+## Function
+
+```lua
+CREATEIHA(1, 15)
+```
