@@ -1987,6 +1987,7 @@ function CREATEIHA(TIME, SIZE, CF)
 end
 
 local autoparry = false
+local parry = false
 
 RunService.RenderStepped:Connect(function()
     if not autoparry then return end
@@ -2000,10 +2001,16 @@ RunService.RenderStepped:Connect(function()
 	local Speed = ball.zoomies.VectorVelocity.Magnitude
     local distance = (ball.Position - char.HumanoidRootPart.Position).Magnitude
 
-    if ball:GetAttribute("target") == Players.LocalPlayer.Name and distance / Speed < 0.6 then
+    if ball:GetAttribute("target") == Players.LocalPlayer.Name and parry == false and distance / Speed < 0.6 then
+		parry = true
+
         VirtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
         VirtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
 		CREATEIHA(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+
+		task.wait()
+
+		parry = false
     end
 end)
 
