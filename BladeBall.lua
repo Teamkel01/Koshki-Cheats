@@ -1989,7 +1989,7 @@ end
 local autoparry = false
 local parry = false
 local lastParry = 0
-local parryCooldown = 0.01
+local parryCooldown = 0.035
 
 RunService.RenderStepped:Connect(function()
     if not autoparry then return end
