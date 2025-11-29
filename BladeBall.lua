@@ -1981,7 +1981,7 @@ RunService.RenderStepped:Connect(function()
 
     local distance = (ball.Position - char.HumanoidRootPart.Position).Magnitude
 
-    if distance < 10 then
+    if distance < 30 then
         VirtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
         VirtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
     end
