@@ -1961,7 +1961,23 @@ end
 
 
 
+function CREATEIHA(TIME, SIZE, CF)
+	local TweenService = game:GetService("TweenService")
 
+	local IHA = Instance.new("ImageHandleAdornment")
+	IHA.Parent = workspace
+	IHA.Color3 = Color3.fromRGB(150,140,200)
+	IHA.Adornee = game.Workspace
+	IHA.AlwaysOnTop = true
+	IHA.Size = Vector2.new(0,0)
+	IHA.Image = "rbxassetid://17608119070"
+	IHA.ZIndex = 1
+	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0) - Vector3.new(0,3,0)
+
+	game:GetService("Debris"):AddItem(IHA, TIME)
+	TweenService:Create(IHA, TweenInfo.new(TIME), {Size = Vector2.new(SIZE,SIZE)}):Play()
+	TweenService:Create(IHA, TweenInfo.new(TIME), {Transparency = 1}):Play()
+end
 
 local BHOP = false
 local BHOPSPEED = 30
@@ -1985,6 +2001,252 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 
+local antifling = false
+
+task.spawn(function()
+	while wait(0.1) do
+		if antifling then
+			for _, plr in pairs(Players:GetPlayers()) do
+				for _, parts in plr.Character:GetChildren() do
+					if parts then
+						if parts:IsA("BasePart") then
+							parts.CanCollide = false
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+
+local Players = game:GetService("Players")
+
+local silentaim = false
+
+task.spawn(function()
+    while task.wait(0.1) do
+        pcall(function()
+            if silentaim and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+                for _, enemy in pairs(Players:GetPlayers()) do
+                    if enemy ~= LP and enemy.Character and enemy.Character:FindFirstChild("HumanoidRootPart") then
+                        if enemy.Backpack:FindFirstChild("Knife") or enemy.Character:FindFirstChild("Knife") then
+                            local startPos = LP.Character.HumanoidRootPart.Position
+                            local endPos = enemy.Character.HumanoidRootPart.Position
+							local endCF = enemy.Character.HumanoidRootPart.CFrame
+                            local direction = (endPos - startPos).Unit * 500
+
+                            local raycastParams = RaycastParams.new()
+                            raycastParams.FilterDescendantsInstances = {LP.Character}
+                            raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+
+                            local result = workspace:Raycast(startPos, direction, raycastParams)
+
+                            if not result or (result.Instance and result.Instance:IsDescendantOf(enemy.Character)) then
+                                if LP.Character:FindFirstChild("Gun") and
+                                   LP.Character.Gun:FindFirstChild("KnifeLocal") and
+                                   LP.Character.Gun.KnifeLocal:FindFirstChild("CreateBeam") and
+                                   LP.Character.Gun.KnifeLocal.CreateBeam:FindFirstChild("RemoteFunction") then
+                                    LP.Character.Gun.KnifeLocal.CreateBeam.RemoteFunction:InvokeServer(1, endPos, "AH2")
+									CREATEIHA(1, 15, endCF)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+local autogun = false
+
+task.spawn(function()
+    while task.wait(0.1) do
+        pcall(function()
+            if autogun and LP.Character and (not LP.Backpack:FindFirstChild("Knife") and not LP.Character:FindFirstChild("Knife")) then
+                for _, models in pairs(workspace:GetChildren()) do
+                    if models:FindFirstChild("GunDrop") and LP.Character:FindFirstChild("HumanoidRootPart") then
+                        local hrp = LP.Character.HumanoidRootPart
+                        local org = hrp.CFrame
+                        hrp.CFrame = models.GunDrop.CFrame + Vector3.new(0, -2, 0)
+                        task.wait(0.01)
+                        hrp.CFrame = org
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+local infjump = false
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if infjump and LP.Character and LP.Character:FindFirstChildOfClass("Humanoid") then
+        LP.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end
+end)
+
+local noclip = false
+
+runService.Heartbeat:Connect(function()
+        local char = LP.Character
+		if noclip then
+        if char then
+            for _, parts in pairs(char:GetChildren()) do
+                if parts:IsA("BasePart") then
+                    parts.CanCollide = false
+				end
+            end
+        end
+    end
+end)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LP = Players.LocalPlayer
+local roles
+local innocentesp = false
+local murdesp = false
+local sheriffesp = false
+
+
+local function getRoot()
+    if LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+        return LP.Character.HumanoidRootPart
+    end
+    return nil
+end
+
+function CreateHighlight()
+    for _, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character and not v.Character:FindFirstChild("Highlight") then
+            local hl = Instance.new("Highlight", v.Character)
+            hl.FillTransparency = 1
+            hl.OutlineTransparency = 1
+        end
+    end
+end
+
+function UpdateHighlights()
+    for _, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character and v.Character:FindFirstChild("Highlight") then
+            local Highlight = v.Character:FindFirstChild("Highlight")
+
+            if sheriffesp and (v.Name == Sheriff or v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun")) and IsAlive(v) then
+                Highlight.FillColor = Color3.fromRGB(0, 0, 225)
+                Highlight.FillTransparency = 0.5
+                Highlight.OutlineTransparency = 0
+
+            elseif murdesp and (v.Name == Murder or v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife")) and IsAlive(v) then
+                Highlight.FillColor = Color3.fromRGB(225, 0, 0)
+                Highlight.FillTransparency = 0.5
+                Highlight.OutlineTransparency = 0
+
+            elseif sheriffesp and (v.Name == Hero or v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun")) and IsAlive(v) and not IsAlive(game.Players[Sheriff]) then
+                Highlight.FillColor = Color3.fromRGB(255, 250, 0)
+                Highlight.FillTransparency = 0.5
+                Highlight.OutlineTransparency = 0
+
+            elseif innocentesp then
+                Highlight.FillColor = Color3.fromRGB(0, 225, 0)
+                Highlight.FillTransparency = 0.5
+                Highlight.OutlineTransparency = 0
+            end
+        end
+    end
+end
+
+function IsAlive(Player)
+    for name, data in pairs(roles) do
+        if Player.Name == name then
+            return not data.Killed and not data.Dead
+        end
+    end
+    return false
+end
+
+RunService.RenderStepped:Connect(function()
+    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+
+    for name, data in pairs(roles) do
+        if data.Role == "Murderer" then
+            Murder = name
+        elseif data.Role == "Sheriff" then
+            Sheriff = name
+        elseif data.Role == "Hero" then
+            Hero = name
+        end
+    end
+
+    CreateHighlight()
+    UpdateHighlights()
+end)
+
+local gunesp = false
+
+task.spawn(function()
+    while task.wait(0.1) do
+        if gunesp then
+            for _, model in pairs(workspace:GetChildren()) do
+                local gunDrop = model:FindFirstChild("GunDrop")
+                if gunDrop and not gunDrop:FindFirstChild("GunCham") then
+                    local gp = Instance.new("Part")
+                    gp.Size = Vector3.new(3, 3, 3)
+                    gp.Position = gunDrop.Position
+                    gp.Name = "GunCham"
+                    gp.Anchored = true
+                    gp.CanCollide = false
+                    gp.Transparency = 0
+                    gp.Color = Color3.fromRGB(255, 0, 255)
+                    gp.Parent = gunDrop
+					gp.Shap = Enum.PartType.Ball
+
+                    local hl = Instance.new("Highlight")
+                    hl.FillColor = Color3.fromRGB(255, 0, 255)
+                    hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+                    hl.Adornee = gp
+                    hl.Parent = gp
+                end
+            end
+        else
+            for _, model in pairs(workspace:GetChildren()) do
+                local gunDrop = model:FindFirstChild("GunDrop")
+                if gunDrop then
+                    local cham = gunDrop:FindFirstChild("GunCham")
+                    if cham then cham:Destroy() end
+                end
+            end
+        end
+    end
+end)
+
+local coinesp = false
+task.spawn(function()
+    while task.wait(0.1) do
+        if coinesp then
+            for _, model in pairs(workspace:GetChildren()) do
+                local coinContainer = model:FindFirstChild("CoinContainer")
+                if coinContainer then
+                    for _, coinServer in pairs(coinContainer:GetChildren()) do
+                        if coinServer.Name == "Coin_Server" and not coinServer:FindFirstChild("CoinHighlight") then
+                            local hl = Instance.new("Highlight")
+                            hl.Name = "CoinHighlight"
+                            hl.FillColor = Color3.fromRGB(255, 255, 0)
+                            hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+                            hl.OutlineTransparency = 0
+                            hl.Adornee = coinServer
+                            hl.Parent = coinServer
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+
+
 local main = Library:Init { Title = "Koshki", accentcolor = Color3.fromRGB(150,140,200) }
 
 local TabSection = GUI:TabSection({
@@ -1997,16 +2259,143 @@ local Tab = GUI:CreateTab({
 })
 
 local section = GUI:Section({
-	text = "Section"
+	text = "Gun"
 }, Tab)
 
 local Toggle = GUI:Toggle({
-	text = "Toggle",
+	text = "Auto Shoot",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			silentaim = false
+		else
+			silentaim = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Gun Grabber",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			autogun = false
+		else
+			autogun = true
+		end
+	end
+}, section)
+
+local section = GUI:Section({
+	text = "MoveMent"
+}, Tab)
+
+local section = GUI:Section({
+	text = "MoveMent"
+}, Tab)
+
+local Toggle = GUI:Toggle({
+	text = "Velocity",
 	callback = function(ToggleActive)
 		if ToggleActive then
 			BHOP = false
 		else
 			BHOP = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Infinite Jump",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			infjump = false
+		else
+			infjump = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Noclip",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			noclip = false
+		else
+			noclip = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Anti Fling",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			antifling = false
+		else
+			antifling = true
+		end
+	end
+}, section)
+
+local TabSection = GUI:TabSection({
+	text = "Esp"
+})
+
+local Tab = GUI:CreateTab({
+	Text = "Visuals",
+	icon = "rbxassetid://6034767608"
+})
+
+local Toggle = GUI:Toggle({
+	text = "Murderer Esp",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			murdesp = false
+		else
+			murdesp = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Sheriff Esp",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			sheriffesp = false
+		else
+			sheriffesp = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Innocent Esp",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			innocentesp = false
+		else
+			innocentesp = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Gun Esp",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			gunesp = false
+		else
+			gunesp = true
+		end
+	end
+}, section)
+
+local Toggle = GUI:Toggle({
+	text = "Coin Esp",
+	callback = function(ToggleActive)
+		if ToggleActive then
+			coinesp = false
+		else
+			coinesp = true
 		end
 	end
 }, section)
