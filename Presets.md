@@ -51,5 +51,5 @@ end
 ## Function CYCLES, SIZE, PART
 
 ```lua
-FOLLOWIHA(2, 5, game.Workspace.TestPart)
+FOLLOWIHA(2, 5, game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
