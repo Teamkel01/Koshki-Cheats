@@ -1,3 +1,39 @@
+## IHA CIRCLE
+
+```lua
+local ALLIHA = {}
+
+function CREATEIHACIRCLE(SIZE, CF)
+
+	local IHA = Instance.new("ImageHandleAdornment")
+	IHA.Parent = workspace
+	IHA.Color3 = Color3.fromRGB(150,140,200)
+	IHA.Adornee = game.Workspace
+	IHA.AlwaysOnTop = true
+	IHA.Size = Vector2.new(SIZE,SIZE)
+	IHA.Image = "rbxassetid://17608119070"
+	IHA.ZIndex = 1
+	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0)
+	
+	return IHA
+end
+
+function DELETEIHACIRCLE(OBJ)
+	for i, v in ipairs(ALLIHA) do
+		if v == OBJ then
+			v:Destroy()
+			table.remove(ALLIHA, i)
+		end
+	end
+end
+```
+
+## Function SIZE, CFRAME
+
+```lua
+CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+```
+
 ## IHA WATER
 
 ```lua
