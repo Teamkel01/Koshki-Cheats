@@ -1,7 +1,7 @@
-## IHA
+## IHA WATER
 
 ```lua
-function CREATEIHA(TIME, SIZE, CF)
+function CREATEIHAWATER(TIME, SIZE, CF)
 	local TweenService = game:GetService("TweenService")
 
 	local IHA = Instance.new("ImageHandleAdornment")
@@ -23,7 +23,7 @@ end
 ## Function TIME, SIZE, CFRAME
 
 ```lua
-CREATEIHA(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+CREATEIHAWATER(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 ```
 
 ## IHA Follow
