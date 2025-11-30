@@ -1989,7 +1989,7 @@ end
 local autoparry = false
 local parry = false
 local lastParry = 0
-local parryCooldown = 0.035
+local parryCooldown = 1
 
 RunService.RenderStepped:Connect(function()
     if not autoparry then return end
@@ -2003,21 +2003,20 @@ RunService.RenderStepped:Connect(function()
 	local Speed = ball.zoomies.VectorVelocity.Magnitude
     local distance = (ball.Position - char.HumanoidRootPart.Position).Magnitude
 
-if ball:GetAttribute("target") == Players.LocalPlayer.Name 
-and not parry 
-and (tick() - lastParry) >= parryCooldown 
-and distance / Speed < 0.6 then
+	if ball:GetAttribute("target") == Players.LocalPlayer.Name 
+	and distance / Speed < 0.5
+	and not parry then
     
     parry = true
-    lastParry = tick()
 
     VirtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
     VirtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
     CREATEIHA(1, 15, player.Character.HumanoidRootPart.CFrame)
 
-    task.wait()
+    task.wait(parryCooldown)
+
     parry = false
-end
+	end
 end)
 
 
@@ -2045,5 +2044,15 @@ local Toggle = GUI:Toggle({
 		else
 			autoparry = true
 		end
+	end
+}, section)
+
+local Slider = GUI:Slider({
+	text = "Cps",
+	min = 1,
+	max = 100,
+	default = 1,
+	callback = function(Value)
+		parryCooldown = 1 / Value
 	end
 }, section)
