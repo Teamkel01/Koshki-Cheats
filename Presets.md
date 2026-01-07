@@ -11,7 +11,7 @@ function CREATEIHACIRCLE(SIZE, CF)
 	IHA.Adornee = game.Workspace
 	IHA.AlwaysOnTop = true
 	IHA.Size = Vector2.new(SIZE,SIZE)
-	IHA.Image = "rbxassetid://17608119070"
+	IHA.Image = "rbxassetid://117208227488794"
 	IHA.ZIndex = 1
 	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0)
 	
@@ -46,7 +46,7 @@ function CREATEIHAWATER(TIME, SIZE, CF)
 	IHA.Adornee = game.Workspace
 	IHA.AlwaysOnTop = true
 	IHA.Size = Vector2.new(0,0)
-	IHA.Image = "rbxassetid://17608119070"
+	IHA.Image = "rbxassetid://117208227488794"
 	IHA.ZIndex = 1
 	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0) - Vector3.new(0,3,0)
 
@@ -77,7 +77,7 @@ function FOLLOWIHA(CYCLES, SIZE, PART)
 		IHA.Adornee = workspace
 		IHA.AlwaysOnTop = true
 		IHA.Size = Vector2.new(SIZE, SIZE)
-		IHA.Image = "rbxassetid://17608119070"
+		IHA.Image = "rbxassetid://117208227488794"
 		IHA.ZIndex = 1
 		local rot = CFrame.Angles(math.rad(angleDeg), 0, 0)
 		RunService.Heartbeat:Connect(function()
