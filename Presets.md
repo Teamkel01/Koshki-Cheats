@@ -14,7 +14,8 @@ function CREATEIHACIRCLE(SIZE, CF)
 	IHA.Image = "rbxassetid://117208227488794"
 	IHA.ZIndex = 1
 	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0)
-	
+
+	table.insert(ALLIHA, IHA)
 	return IHA
 end
 
