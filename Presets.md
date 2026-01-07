@@ -5,7 +5,7 @@
 ```lua
 local ALLIHA = {}
 
-function CREATEIHACIRCLE(SIZE, PART)
+function CREATEIHACIRCLE(SIZE, OFFSET, PART)
 
 	local IHA = Instance.new("ImageHandleAdornment")
 	IHA.Parent = workspace
@@ -15,8 +15,8 @@ function CREATEIHACIRCLE(SIZE, PART)
 	IHA.Size = Vector2.new(SIZE,SIZE)
 	IHA.Image = "rbxassetid://117208227488794"
 	IHA.ZIndex = 1
-	IHA.CFrame = CFrame.Angles(math.rad(90),0,0)
-	
+	IHA.CFrame = CFrame.Angles(math.rad(90),0,0) + Vector3.new(0,OFFSET,0)
+
 	local IHATWO = Instance.new("ImageHandleAdornment")
 	IHATWO.Parent = workspace
 	IHATWO.Color3 = Color3.fromRGB(150,140,200)
@@ -25,7 +25,7 @@ function CREATEIHACIRCLE(SIZE, PART)
 	IHATWO.Size = Vector2.new(SIZE,SIZE)
 	IHATWO.Image = "rbxassetid://117208227488794"
 	IHATWO.ZIndex = 1
-	IHATWO.CFrame = CFrame.Angles(math.rad(270),0,0)
+	IHATWO.CFrame = CFrame.Angles(math.rad(270),0,0) + Vector3.new(0,OFFSET,0)
 
 	local PAIR = {IHA, IHATWO}
 	table.insert(ALLIHA, PAIR)
@@ -48,7 +48,7 @@ end
 ## Function SIZE, PART
 
 ```lua
-local IHA = CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart)
+local IHA = CREATEIHACIRCLE(15, -3,	game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
 
 ## IHA RIPPLE
