@@ -180,7 +180,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			local verticalVelocity = velocity.Y
 
 			if moveDir.Magnitude > 0 then
-				hrp.Velocity = moveDir.Unit * 30 + Vector3.new(0, verticalVelocity, 0)
+				hrp.Velocity = moveDir.Unit * VSPEED + Vector3.new(0, verticalVelocity, 0)
 			else
 				hrp.Velocity = Vector3.new(velocity.X, 0, velocity.Z) * 0 + Vector3.new(0, verticalVelocity, 0)
 			end
