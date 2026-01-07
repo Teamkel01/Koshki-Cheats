@@ -45,7 +45,7 @@ function DELETEIHACIRCLE(PAIR)
 end
 ```
 
-## Function SIZE, CFRAME
+## Function SIZE, PART
 
 ```lua
 local IHA = CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart)
