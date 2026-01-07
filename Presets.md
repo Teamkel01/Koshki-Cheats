@@ -1,3 +1,5 @@
+## VISUALS
+
 ## IHA CIRCLE
 
 ```lua
@@ -13,17 +15,31 @@ function CREATEIHACIRCLE(SIZE, PART)
 	IHA.Size = Vector2.new(SIZE,SIZE)
 	IHA.Image = "rbxassetid://117208227488794"
 	IHA.ZIndex = 1
-	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0)
+	IHA.CFrame = CFrame.Angles(math.rad(90),0,0)
+	
+	local IHATWO = Instance.new("ImageHandleAdornment")
+	IHATWO.Parent = workspace
+	IHATWO.Color3 = Color3.fromRGB(150,140,200)
+	IHATWO.Adornee = PART
+	IHATWO.AlwaysOnTop = true
+	IHATWO.Size = Vector2.new(SIZE,SIZE)
+	IHATWO.Image = "rbxassetid://117208227488794"
+	IHATWO.ZIndex = 1
+	IHATWO.CFrame = CFrame.Angles(math.rad(270),0,0)
 
-	table.insert(ALLIHA, IHA)
-	return IHA
+	local PAIR = {IHA, IHATWO}
+	table.insert(ALLIHA, PAIR)
+	return PAIR
 end
 
-function DELETEIHACIRCLE(OBJ)
+function DELETEIHACIRCLE(PAIR)
 	for i, v in ipairs(ALLIHA) do
-		if v == OBJ then
-			v:Destroy()
+		if v == PAIR then
+			for _, adornment in ipairs(v) do
+				adornment:Destroy()
+			end
 			table.remove(ALLIHA, i)
+			break
 		end
 	end
 end
@@ -32,7 +48,7 @@ end
 ## Function SIZE, CFRAME
 
 ```lua
-CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart)
+local IHA = CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
 
 ## IHA WATER
