@@ -3,12 +3,12 @@
 ```lua
 local ALLIHA = {}
 
-function CREATEIHACIRCLE(SIZE, CF)
+function CREATEIHACIRCLE(SIZE, PART)
 
 	local IHA = Instance.new("ImageHandleAdornment")
 	IHA.Parent = workspace
 	IHA.Color3 = Color3.fromRGB(150,140,200)
-	IHA.Adornee = game.Workspace
+	IHA.Adornee = PART
 	IHA.AlwaysOnTop = true
 	IHA.Size = Vector2.new(SIZE,SIZE)
 	IHA.Image = "rbxassetid://117208227488794"
@@ -32,7 +32,7 @@ end
 ## Function SIZE, CFRAME
 
 ```lua
-CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
 
 ## IHA WATER
