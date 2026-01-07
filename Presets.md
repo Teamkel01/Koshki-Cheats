@@ -163,6 +163,34 @@ end
 local IHA = FOLLOWIHA(5, 2.5, game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
 
+## TEST
+
+```lua
+local IHAESP = true
+
+for _, players in game:GetService("Players"):GetPlayers() do
+	CREATEIHACIRCLE(30, -3, players.Character.HumanoidRootPart)
+end
+
+for _, players in game:GetService("Players"):GetPlayers() do
+	players.CharacterAdded:Connect(function(char)
+		if IHAESP then
+		CREATEIHACIRCLE(30, -3, char.HumanoidRootPart)
+		end
+	end)
+	
+	players.CharacterRemoving:Connect(function(char)
+		for _, parts in workspace:GetChildren() do
+			if parts:IsA("ImageHandleAdornment") then
+				if parts.Adornee == char.HumanoidRootPart then
+					parts:Destroy()
+				end
+			end
+		end
+	end)
+end
+```
+
 ## SPEED
 
 ```lua
