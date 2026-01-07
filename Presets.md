@@ -162,3 +162,29 @@ end
 ```lua
 local IHA = FOLLOWIHA(5, 2.5, game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
+
+## SPEED
+
+```lua
+local VELOCITY = true
+local VSPEED = 30
+
+game:GetService("RunService").RenderStepped:Connect(function()
+	if true then
+		local character = game.Players.LocalPlayer.Character
+		if character and character:FindFirstChild("Humanoid") and character:FindFirstChild("HumanoidRootPart") then
+			local humanoid = character.Humanoid
+			local hrp = character.HumanoidRootPart
+			local moveDir = humanoid.MoveDirection
+			local velocity = hrp.Velocity
+			local verticalVelocity = velocity.Y
+
+			if moveDir.Magnitude > 0 then
+				hrp.Velocity = moveDir.Unit * 30 + Vector3.new(0, verticalVelocity, 0)
+			else
+				hrp.Velocity = Vector3.new(velocity.X, 0, velocity.Z) * 0 + Vector3.new(0, verticalVelocity, 0)
+			end
+		end
+	end
+end)
+```
