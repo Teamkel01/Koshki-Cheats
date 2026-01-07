@@ -170,7 +170,7 @@ local VELOCITY = true
 local VSPEED = 30
 
 game:GetService("RunService").RenderStepped:Connect(function()
-	if true then
+	if VELOCITY then
 		local character = game.Players.LocalPlayer.Character
 		if character and character:FindFirstChild("Humanoid") and character:FindFirstChild("HumanoidRootPart") then
 			local humanoid = character.Humanoid
