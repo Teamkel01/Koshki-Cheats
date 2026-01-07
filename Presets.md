@@ -51,32 +51,46 @@ end
 local IHA = CREATEIHACIRCLE(15,	game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
 
-## IHA WATER
+## IHA RIPPLE
 
 ```lua
-function CREATEIHAWATER(TIME, SIZE, CF)
+function CREATEIHARIPPLE(TIME, SIZE, CF)
 	local TweenService = game:GetService("TweenService")
 
 	local IHA = Instance.new("ImageHandleAdornment")
 	IHA.Parent = workspace
 	IHA.Color3 = Color3.fromRGB(150,140,200)
-	IHA.Adornee = game.Workspace
+	IHA.Adornee = workspace
 	IHA.AlwaysOnTop = true
 	IHA.Size = Vector2.new(0,0)
 	IHA.Image = "rbxassetid://117208227488794"
 	IHA.ZIndex = 1
 	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0) - Vector3.new(0,3,0)
+	
+	local IHATWO = Instance.new("ImageHandleAdornment")
+	IHATWO.Parent = workspace
+	IHATWO.Color3 = Color3.fromRGB(150,140,200)
+	IHATWO.Adornee = workspace
+	IHATWO.AlwaysOnTop = true
+	IHATWO.Size = Vector2.new(0,0)
+	IHATWO.Image = "rbxassetid://117208227488794"
+	IHATWO.ZIndex = 1
+	IHATWO.CFrame = CF * CFrame.Angles(math.rad(270),0,0) - Vector3.new(0,3,0)
 
 	game:GetService("Debris"):AddItem(IHA, TIME)
 	TweenService:Create(IHA, TweenInfo.new(TIME), {Size = Vector2.new(SIZE,SIZE)}):Play()
 	TweenService:Create(IHA, TweenInfo.new(TIME), {Transparency = 1}):Play()
+	
+	game:GetService("Debris"):AddItem(IHATWO, TIME)
+	TweenService:Create(IHATWO, TweenInfo.new(TIME), {Size = Vector2.new(SIZE,SIZE)}):Play()
+	TweenService:Create(IHATWO, TweenInfo.new(TIME), {Transparency = 1}):Play()
 end
 ```
 
 ## Function TIME, SIZE, CFRAME
 
 ```lua
-CREATEIHAWATER(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+CREATEIHARIPPLE(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 ```
 
 ## IHA Follow
