@@ -75,7 +75,7 @@ function CREATEIHARIPPLE(TIME, SIZE, CF)
 	IHATWO.Size = Vector2.new(0,0)
 	IHATWO.Image = "rbxassetid://117208227488794"
 	IHATWO.ZIndex = 1
-	IHATWO.CFrame = CF * CFrame.Angles(math.rad(270),0,0) - Vector3.new(0,3,0)
+	IHATWO.CFrame = CF * CFrame.Angles(math.rad(270),0,0)
 
 	game:GetService("Debris"):AddItem(IHA, TIME)
 	TweenService:Create(IHA, TweenInfo.new(TIME), {Size = Vector2.new(SIZE,SIZE)}):Play()
