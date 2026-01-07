@@ -166,6 +166,28 @@ local IHA = FOLLOWIHA(5, 2.5, game.Players.LocalPlayer.Character.HumanoidRootPar
 ## TEST
 
 ```lua
+function CREATEIHACIRCLE(SIZE, OFFSET, PART)
+	local IHA = Instance.new("ImageHandleAdornment")
+	IHA.Parent = workspace
+	IHA.Color3 = Color3.fromRGB(150,140,200)
+	IHA.Adornee = PART
+	IHA.AlwaysOnTop = true
+	IHA.Size = Vector2.new(SIZE,SIZE)
+	IHA.Image = "rbxassetid://117208227488794"
+	IHA.ZIndex = 1
+	IHA.CFrame = CFrame.Angles(math.rad(90),0,0) + Vector3.new(0,OFFSET,0)
+
+	local IHATWO = Instance.new("ImageHandleAdornment")
+	IHATWO.Parent = workspace
+	IHATWO.Color3 = Color3.fromRGB(150,140,200)
+	IHATWO.Adornee = PART
+	IHATWO.AlwaysOnTop = true
+	IHATWO.Size = Vector2.new(SIZE,SIZE)
+	IHATWO.Image = "rbxassetid://117208227488794"
+	IHATWO.ZIndex = 1
+	IHATWO.CFrame = CFrame.Angles(math.rad(270),0,0) + Vector3.new(0,OFFSET,0)
+end
+
 local IHAESP = true
 
 for _, players in game:GetService("Players"):GetPlayers() do
