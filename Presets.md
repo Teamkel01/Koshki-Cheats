@@ -65,7 +65,7 @@ function CREATEIHARIPPLE(TIME, SIZE, CF)
 	IHA.Size = Vector2.new(0,0)
 	IHA.Image = "rbxassetid://117208227488794"
 	IHA.ZIndex = 1
-	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0) - Vector3.new(0,3,0)
+	IHA.CFrame = CF * CFrame.Angles(math.rad(90),0,0)
 	
 	local IHATWO = Instance.new("ImageHandleAdornment")
 	IHATWO.Parent = workspace
