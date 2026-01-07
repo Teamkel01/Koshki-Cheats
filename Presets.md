@@ -96,48 +96,69 @@ CREATEIHARIPPLE(1, 15, game.Players.LocalPlayer.Character.HumanoidRootPart.CFram
 ## IHA Follow
 
 ```lua
-function FOLLOWIHA(CYCLES, SIZE, PART)
+local ALLIHA = {}
+
+function FOLLOWIHA(SIZE, OFFSET, PART)
 	local TweenService = game:GetService("TweenService")
 	local RunService = game:GetService("RunService")
-	local Offset = Instance.new("NumberValue")
-	Offset.Value = -3
-	local function MakeIHA(angleDeg)
-		local IHA = Instance.new("ImageHandleAdornment")
-		IHA.Parent = workspace
-		IHA.Color3 = Color3.fromRGB(150, 140, 200)
-		IHA.Adornee = workspace
-		IHA.AlwaysOnTop = true
-		IHA.Size = Vector2.new(SIZE, SIZE)
-		IHA.Image = "rbxassetid://117208227488794"
-		IHA.ZIndex = 1
-		local rot = CFrame.Angles(math.rad(angleDeg), 0, 0)
-		RunService.Heartbeat:Connect(function()
-			local pos = PART.Position
-			IHA.CFrame = CFrame.new(pos.X, pos.Y + Offset.Value, pos.Z) * rot
-		end)
-		game:GetService("Debris"):AddItem(IHA, CYCLES * 2)
-	end
 	
-	MakeIHA(90)
-	MakeIHA(270)
-	game:GetService("Debris"):AddItem(Offset, CYCLES * 2)
+	local IHA = Instance.new("ImageHandleAdornment")
+	IHA.Parent = workspace
+	IHA.Color3 = Color3.fromRGB(150,140,200)
+	IHA.Adornee = PART
+	IHA.AlwaysOnTop = true
+	IHA.Size = Vector2.new(SIZE,SIZE)
+	IHA.Image = "rbxassetid://117208227488794"
+	IHA.ZIndex = 1
+	IHA.CFrame = CFrame.Angles(math.rad(90),0,0) - Vector3.new(0,OFFSET,0)
 
+	local IHATWO = Instance.new("ImageHandleAdornment")
+	IHATWO.Parent = workspace
+	IHATWO.Color3 = Color3.fromRGB(150,140,200)
+	IHATWO.Adornee = PART
+	IHATWO.AlwaysOnTop = true
+	IHATWO.Size = Vector2.new(SIZE,SIZE)
+	IHATWO.Image = "rbxassetid://117208227488794"
+	IHATWO.ZIndex = 1
+	IHATWO.CFrame = CFrame.Angles(math.rad(270),0,0) - Vector3.new(0,OFFSET,0)
+	
+	local IHATWEENUP = TweenService:Create(IHA, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.Angles(math.rad(90),0,0) + Vector3.new(0,OFFSET,0)})
+	local IHATWOTWEENUP = TweenService:Create(IHATWO, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.Angles(math.rad(270),0,0) + Vector3.new(0,OFFSET,0)})
+	
+	local IHATWEENDOWN = TweenService:Create(IHA, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.Angles(math.rad(90),0,0) - Vector3.new(0,OFFSET,0)})
+	local IHATWOTWEENDOWN = TweenService:Create(IHATWO, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.Angles(math.rad(270),0,0) - Vector3.new(0,OFFSET,0)})
+	
 	task.spawn(function()
-	while Offset do
-	TweenService:Create(Offset,TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),{Value = 3}):Play()
-
-	task.wait(1)
-
-	TweenService:Create(Offset,TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),{Value = -3}):Play()
-	
-	task.wait(1)
+		while IHA and IHATWO do
+			IHATWEENUP:Play()
+			IHATWOTWEENUP:Play()
+			task.wait(1)
+			IHATWEENDOWN:Play()
+			IHATWOTWEENDOWN:Play()
+			task.wait(1)
 		end
 	end)
+	
+	local PAIR = {IHA, IHATWO}
+	table.insert(ALLIHA, PAIR)
+	return PAIR
+end
+
+function DELETEIHACIRCLE(PAIR)
+	for i, v in ipairs(ALLIHA) do
+		if v == PAIR then
+			for _, adornment in ipairs(v) do
+				adornment:Destroy()
+			end
+			table.remove(ALLIHA, i)
+			break
+		end
+	end
 end
 ```
 
-## Function CYCLES, SIZE, PART
+## Function SIZE, OFFSET, PART
 
 ```lua
-FOLLOWIHA(2, 5, game.Players.LocalPlayer.Character.HumanoidRootPart)
+local IHA = FOLLOWIHA(5, 2.5, game.Players.LocalPlayer.Character.HumanoidRootPart)
 ```
