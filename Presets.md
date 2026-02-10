@@ -215,7 +215,7 @@ end
 
 ## OUTLINE
 
-```
+```lua
 function CreateBHA(part, CFrame, Size)
 	local BHA = Instance.new("BoxHandleAdornment")
 	BHA.Parent = workspace
