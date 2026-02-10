@@ -55,6 +55,64 @@ end
 local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 0.025)
 ```
 
+## FILLED OUTLINE
+
+```lua
+function CreateBHA(part, CFrame, Size)
+	local BHA = Instance.new("BoxHandleAdornment")
+	BHA.Parent = workspace
+	BHA.Adornee = part
+	BHA.CFrame = CFrame
+	BHA.Shading = Enum.AdornShading.AlwaysOnTop
+	BHA.ZIndex = 1
+	BHA.Size = Size
+	BHA.Color3 = Color3.fromRGB(255,255,255)
+
+	return BHA
+end
+
+function OutlineObject(part, Thickness)
+	local ThicknessOffset = Thickness / 2
+
+	local X = part.Size.X
+	local Y = part.Size.Y
+	local Z = part.Size.Z
+
+	local BHAONE = CreateBHA(part, CFrame.new(0,-ThicknessOffset - Y / 2,ThicknessOffset - Z / 2), Vector3.new(X,Thickness,Thickness))
+	local BHATWO = CreateBHA(part, CFrame.new(ThicknessOffset - X / 2,-ThicknessOffset - Y / 2,0), Vector3.new(Thickness,Thickness,Z))
+	local BHATHREE = CreateBHA(part, CFrame.new(0,-ThicknessOffset - Y / 2,-ThicknessOffset + Z / 2), Vector3.new(-X,Thickness,Thickness))
+	local BHAFOUR = CreateBHA(part, CFrame.new(-ThicknessOffset + X / 2,-ThicknessOffset - Y / 2,0), Vector3.new(Thickness,Thickness,-Z))
+
+	local BHAFIVE = CreateBHA(part, CFrame.new(0,-ThicknessOffset + Y / 2,ThicknessOffset - Z / 2), Vector3.new(X,Thickness,Thickness))
+	local BHASIX = CreateBHA(part, CFrame.new(ThicknessOffset - X / 2,-ThicknessOffset + Y / 2,0), Vector3.new(Thickness,Thickness,Z))
+	local BHASEVEN = CreateBHA(part, CFrame.new(0,-ThicknessOffset + Y / 2,-ThicknessOffset + Z / 2), Vector3.new(-X,Thickness,Thickness))
+	local BHAEIGHT = CreateBHA(part, CFrame.new(-ThicknessOffset + X / 2,-ThicknessOffset + Y / 2,0), Vector3.new(Thickness,Thickness,-Z))
+
+	local BHANINE = CreateBHA(part, CFrame.new(ThicknessOffset - X / 2,0,ThicknessOffset - Z / 2), Vector3.new(Thickness,Y,Thickness))
+	local BHATEN = CreateBHA(part, CFrame.new(ThicknessOffset - X / 2,0,-ThicknessOffset + Z / 2), Vector3.new(Thickness,Y,Thickness))
+	local BHAELEVEN = CreateBHA(part, CFrame.new(-ThicknessOffset + X / 2,0,ThicknessOffset - Z / 2), Vector3.new(Thickness,Y,Thickness))
+	local BHATWELVE = CreateBHA(part, CFrame.new(-ThicknessOffset + X / 2,0,-ThicknessOffset + Z / 2), Vector3.new(Thickness,Y,Thickness))
+	
+	local BHATHIRTEEN = CreateBHA(part, CFrame.new(0,0,0), Vector3.new(X,Y,Z))
+	BHATHIRTEEN.Transparency = 0.5
+
+	local Outlines = {BHAONE, BHATWO, BHATHREE, BHAFOUR, BHAFIVE, BHASIX, BHASEVEN, BHAEIGHT, BHANINE, BHATEN, BHAELEVEN, BHATWELVE, BHATHIRTEEN}
+	return Outlines
+end
+
+function DeleteOutline(Outline)
+	for _, Adornments in ipairs(Outline) do
+		Adornments:Destroy()
+	end
+end
+```
+
+## PART, THICKNESS
+
+```lua
+local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 0.025)
+```
+
 ## SPEED
 
 ```lua
