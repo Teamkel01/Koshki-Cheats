@@ -49,6 +49,8 @@ function DeleteOutline(Outline)
 end
 ```
 
+## PART, THICKNESS
+
 ```lua
 local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 0.025)
 ```
