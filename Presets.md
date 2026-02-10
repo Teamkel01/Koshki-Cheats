@@ -47,7 +47,9 @@ function DeleteOutline(Outline)
 		Adornments:Destroy()
 	end
 end
+```
 
+```lua
 local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 0.025)
 ```
 
