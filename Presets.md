@@ -195,7 +195,7 @@ local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.Hum
 ## PART, SIDES, RADIUS, THICKNESS, OFFSET, CIRCLE
 
 ```lua
-Circle = UpdateCircle(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 10, 10, 0.025, 0, transparency, Circle)
+Circle = UpdateCircle(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 10, 10, 0.025, 0, 0, Circle)
 ```
 
 ## SPEED
