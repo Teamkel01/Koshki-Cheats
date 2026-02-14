@@ -116,7 +116,7 @@ local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.H
 ## CIRCLE
 
 ```lua
-function CreateBHA(part, CFrame, Size)
+function CreateBHA(part, CFrame, Size, Transparency)
 	local BHA = Instance.new("BoxHandleAdornment")
 	BHA.Parent = workspace
 	BHA.Adornee = part
@@ -124,12 +124,13 @@ function CreateBHA(part, CFrame, Size)
 	BHA.Shading = Enum.AdornShading.AlwaysOnTop
 	BHA.ZIndex = 1
 	BHA.Size = Size
+	BHA.Transparency = Transparency
 	BHA.Color3 = Color3.fromRGB(255,255,255)
 
 	return BHA
 end
 
-function CircleObject(part, Sides, Radius, Thickness, Offset)
+function CircleObject(part, Sides, Radius, Thickness, Offset, Transparency)
 
 	local Circles = {}
 
@@ -138,7 +139,7 @@ function CircleObject(part, Sides, Radius, Thickness, Offset)
 		local Rotation = -360 / Sides * i
 		local Length = 2 * Radius * math.tan(math.pi / Sides)
 
-		local Circle = CreateBHA(part, CFrame.new(math.cos(math.rad(Angle)) * Radius, Offset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length))
+		local Circle = CreateBHA(part, CFrame.new(math.cos(math.rad(Angle)) * Radius, Offset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length), Transparency)
 
 		table.insert(Circles, Circle)
 	end
@@ -146,7 +147,7 @@ function CircleObject(part, Sides, Radius, Thickness, Offset)
 	return Circles
 end
 
-function UpdateCircle(Part, Sides, Radius, Thickness, Offset, Circle)
+function UpdateCircle(Part, Sides, Radius, Thickness, Offset, Transparency, Circle)
 	
 	local Circles = {}
 	
@@ -159,14 +160,15 @@ function UpdateCircle(Part, Sides, Radius, Thickness, Offset, Circle)
 			Circle[i].CFrame = CFrame.new(math.cos(math.rad(Angle)) * Radius, Offset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0)
 			Circle[i].Size = Vector3.new(Thickness,Thickness,Length)
 			Circle[i].Adornee = Part
+			Circle[i].Transparency = Transparency
 			
-			table.insert(Circles, Circle)
+			table.insert(Circles, Circle[i])
 		else
 			local Angle = 360 / Sides * i
 			local Rotation = -360 / Sides * i
 			local Length = 2 * Radius * math.tan(math.pi / Sides)
 
-			local Circle = CreateBHA(Part, CFrame.new(math.cos(math.rad(Angle)) * Radius, Offset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length))
+			local Circle = CreateBHA(Part, CFrame.new(math.cos(math.rad(Angle)) * Radius, Offset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length), Transparency)
 
 			table.insert(Circles, Circle)
 		end
@@ -182,10 +184,10 @@ function DeleteCircle(Circle)
 end
 ```
 
-## PART, SIDES, RADIUS, THICKNESS, OFFSET
+## PART, SIDES, RADIUS, THICKNESS, OFFSET, TRANSPARENCY
 
 ```lua
-local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 100, 10, 0.025, 0)
+local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 10, 10, 0.025, 0, 0)
 ```
 
 ## UPDATE CIRCLE
@@ -193,7 +195,7 @@ local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.Hum
 ## PART, SIDES, RADIUS, THICKNESS, OFFSET, CIRCLE
 
 ```lua
-local Circle = UpdateCircle(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 100, 15, 0.025, 0, Circle)
+Circle = UpdateCircle(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 10, 10, 0.025, 0, transparency, Circle)
 ```
 
 ## SPEED
