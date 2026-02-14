@@ -188,6 +188,8 @@ end
 local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 100, 10, 0.025, 0)
 ```
 
+## UPDATE CIRCLE
+
 ## PART, SIDES, RADIUS, THICKNESS, OFFSET, CIRCLE
 
 ```lua
