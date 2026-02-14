@@ -113,6 +113,46 @@ end
 local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 0.025)
 ```
 
+## CIRCLE
+
+```lua
+function CreateBHA(part, CFrame, Size)
+	local BHA = Instance.new("BoxHandleAdornment")
+	BHA.Parent = workspace
+	BHA.Adornee = part
+	BHA.CFrame = CFrame
+	BHA.Shading = Enum.AdornShading.AlwaysOnTop
+	BHA.ZIndex = 1
+	BHA.Size = Size
+	BHA.Color3 = Color3.fromRGB(255,255,255)
+	
+	return BHA
+end
+
+function CircleObject(part, Sides, Radius, Thickness, Offset)
+
+	local Circles = {}
+
+	for i = 1, Sides do
+		local Angle = 360 / Sides * i
+		local Rotation = -360 / Sides * i
+		local Length = 2 * Radius * math.tan(math.pi / Sides)
+
+		local Circle = CreateBHA(part, CFrame.new(math.cos(math.rad(Angle)) * Radius, Offset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length))
+		
+		table.insert(Circles, Circle)
+	end
+	
+	return Circles
+end
+
+function DeleteCircle(Circle)
+	for _, Adornments in ipairs(Circle) do
+		Adornments:Destroy()
+	end
+end
+```
+
 ## SPEED
 
 ```lua
