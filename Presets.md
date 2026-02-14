@@ -153,7 +153,7 @@ function DeleteCircle(Circle)
 end
 ```
 
-## PART SIDES RADIUS THICKNESS OFFSET
+## PART, SIDES, RADIUS, THICKNESS, OFFSET
 
 ```lua
 local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 100, 10, 0.025, 0)
