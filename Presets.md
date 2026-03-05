@@ -276,7 +276,7 @@ function CreateBHA(part, CFrame, Size)
 	return BHA
 end
 
-game:GetService("RunService").Stepped:Connect(function()
+game:GetService("RunService").Heartbeat:Connect(function()
 	for _, Data in ipairs(Tracers) do
 		local Tracer = Data.Tracer
 		local Part = Data.Part
