@@ -252,7 +252,7 @@ function DeleteTracer(Tracer)
 end
 ```
 
-## PART TARGETPART OFFSET THICKNESS TRANSPARENCY
+## PART, TARGET, OFFSET, THICKNESS, TRANSPARENCY
 
 ```lua
 local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, -3, 0.025, 0)
