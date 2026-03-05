@@ -288,17 +288,14 @@ game:GetService("RunService").Stepped:Connect(function()
 		local CircleOffset = Data.CircleOffset
 
 		local Start = Part.Position + Vector3.new(0,Offset,0)
-
 		local TargetPos = TargetPart.Position + Vector3.new(0,CircleOffset,0)
 
-		-- direction from target to start
 		local FlatDir = (Start - TargetPos) * Vector3.new(1,0,1)
 
 		if FlatDir.Magnitude > 0 then
 			FlatDir = FlatDir.Unit
 		end
 
-		-- point on circle edge
 		local End = TargetPos + FlatDir * Radius
 
 		local Direction = End - Start
@@ -313,7 +310,7 @@ end)
 
 function TraceObject(Part, TargetPart, Offset, Thickness, Transparency, Sides, Radius, CircleOffset)
 	local Tracer = CreateBHA(Part, CFrame.new(0,0,0), Vector3.new(0,0,0))
-	
+
 	local Circles = {}
 
 	for i = 1, Sides do
@@ -325,7 +322,7 @@ function TraceObject(Part, TargetPart, Offset, Thickness, Transparency, Sides, R
 
 		table.insert(Circles, Circle)
 	end
-	
+
 	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, Thickness = Thickness, Transparency = Transparency, Circles = Circles, Radius = Radius, CircleOffset = CircleOffset}
 	table.insert(Tracers, Table)
 	return Table
@@ -334,11 +331,11 @@ end
 function DeleteTracer(Tracer)
 	for i, Data in ipairs(Tracers) do
 		Data.Tracer:Destroy()
-		
+
 		for _, Parts in Data.Circles do
 			Parts:Destroy()
 		end
-		
+
 		table.remove(Tracers, i)
 	end
 end
