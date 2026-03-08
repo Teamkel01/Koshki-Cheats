@@ -361,7 +361,7 @@ end)
 ## PART, TARGET, OFFSET, THICKNESS, TRANSPARENCY, SIDES, RADIUS, CIRCLEOFFSET
 
 ```lua
-local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, workspace.Cube, -3, 0.025, 0, 100, 3, 0)
+local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, -3, 0.025, 0, 100, 3, 0)
 ```
 
 
