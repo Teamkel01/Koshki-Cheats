@@ -206,7 +206,7 @@ local Tracers = {}
 function CreateBHA(part, CFrame, Size)
 	local BHA = Instance.new("BoxHandleAdornment")
 	BHA.Parent = workspace
-	BHA.Adornee = part
+	BHA.Adornee = workspace
 	BHA.CFrame = CFrame
 	BHA.Shading = Enum.AdornShading.AlwaysOnTop
 	BHA.ZIndex = 1
@@ -222,24 +222,24 @@ game:GetService("RunService").Heartbeat:Connect(function()
 		local Part = Data.Part
 		local TargetPart = Data.TargetPart
 		local Offset = Data.Offset
+		local TargetOffset = Data.TargetOffset
 		local Thickness = Data.Thickness
 		local Transparency = Data.Transparency
-		
+
 		local Start = Part.Position + Vector3.new(0,Offset,0)
-		local End = TargetPart.Position
+		local End = TargetPart.Position + Vector3.new(0,TargetOffset,0)
 		local Direction = End - Start
 		local Distance = Direction.Magnitude
-		local PointEnd = Part.CFrame:PointToObjectSpace(End)
 
 		Tracer.Transparency = Transparency
 		Tracer.Size = Vector3.new(Thickness, Thickness, Distance)
-		Tracer.CFrame = CFrame.lookAt(Vector3.new(0,Offset,0), PointEnd) * CFrame.new(0,0,-Distance / 2)
+		Tracer.CFrame = CFrame.lookAt(Start, End) * CFrame.new(0,0,-Distance / 2)
 	end
 end)
 
-function TraceObject(Part, TargetPart, Offset, Thickness, Transparency)
+function TraceObject(Part, TargetPart, Offset, TargetOffset, Thickness, Transparency)
 	local Tracer = CreateBHA(Part, CFrame.new(0,0,0), Vector3.new(0,0,0))
-	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, Thickness = Thickness, Transparency = Transparency}
+	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, TargetOffset = TargetOffset, Thickness = Thickness, Transparency = Transparency}
 	table.insert(Tracers, Table)
 	return Table
 end
@@ -252,10 +252,10 @@ function DeleteTracer(Tracer)
 end
 ```
 
-## PART, TARGET, OFFSET, THICKNESS, TRANSPARENCY
+## PART, TARGET, OFFSET, TARGETOFFSET, THICKNESS, TRANSPARENCY
 
 ```lua
-local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, -3, 0.025, 0)
+local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, -3, 0, 0.025, 0)
 ```
 
 ## TRACER WITH CIRCLE
