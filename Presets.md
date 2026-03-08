@@ -276,8 +276,49 @@ function CreateBHA(part, CFrame, Size)
 	return BHA
 end
 
+function TraceObject(Part, TargetPart, Offset, Thickness, Transparency, Sides, Radius, CircleOffset)
+	local Tracer = CreateBHA(Part, CFrame.new(0,0,0), Vector3.new(0,0,0))
+
+	local Circles = {}
+
+	for i = 1, Sides do
+		local Angle = 360 / Sides * i
+		local Rotation = -360 / Sides * i
+		local Length = 2 * Radius * math.tan(math.pi / Sides)
+
+		local Circle = CreateBHA(TargetPart, CFrame.new(math.cos(math.rad(Angle)) * Radius, CircleOffset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length), Transparency)
+		Circle.Adornee = TargetPart
+
+		table.insert(Circles, Circle)
+	end
+
+	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, Thickness = Thickness, Transparency = Transparency, Circles = Circles, Radius = Radius, CircleOffset = CircleOffset}
+	table.insert(Tracers, Table)
+	return Table
+end
+
+function DeleteTracer(Tracer)
+		Tracer.Tracer:Destroy()
+
+		for _, Parts in Tracer.Circles do
+			Parts:Destroy()
+		end
+
+		for i, v in ipairs(Tracers) do
+			if Tracer == v then
+			table.remove(Tracers, i)
+		end
+	end
+end
+
 game:GetService("RunService").Heartbeat:Connect(function()
 	for _, Data in ipairs(Tracers) do
+		
+		if not Data.Part:IsDescendantOf(game) or not Data.TargetPart:IsDescendantOf(game) then
+			DeleteTracer(Data)
+			continue
+		end
+		
 		local Tracer = Data.Tracer
 		local Part = Data.Part
 		local TargetPart = Data.TargetPart
@@ -306,39 +347,6 @@ game:GetService("RunService").Heartbeat:Connect(function()
 		Tracer.CFrame = CFrame.lookAt(Start, End) * CFrame.new(0,0,-Distance/2)
 	end
 end)
-
-function TraceObject(Part, TargetPart, Offset, Thickness, Transparency, Sides, Radius, CircleOffset)
-	local Tracer = CreateBHA(Part, CFrame.new(0,0,0), Vector3.new(0,0,0))
-
-	local Circles = {}
-
-	for i = 1, Sides do
-		local Angle = 360 / Sides * i
-		local Rotation = -360 / Sides * i
-		local Length = 2 * Radius * math.tan(math.pi / Sides)
-
-		local Circle = CreateBHA(TargetPart, CFrame.new(math.cos(math.rad(Angle)) * Radius, CircleOffset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length), Transparency)
-		Circle.Adornee = TargetPart
-
-		table.insert(Circles, Circle)
-	end
-
-	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, Thickness = Thickness, Transparency = Transparency, Circles = Circles, Radius = Radius, CircleOffset = CircleOffset}
-	table.insert(Tracers, Table)
-	return Table
-end
-
-function DeleteTracer(Tracer)
-	for i, Data in ipairs(Tracers) do
-		Data.Tracer:Destroy()
-
-		for _, Parts in Data.Circles do
-			Parts:Destroy()
-		end
-
-		table.remove(Tracers, i)
-	end
-end
 ```
 
 ## PART, TARGET, OFFSET, THICKNESS, TRANSPARENCY, SIDES, RADIUS, CIRCLEOFFSET
