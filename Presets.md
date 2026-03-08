@@ -266,7 +266,7 @@ local Tracers = {}
 function CreateBHA(part, CFrame, Size)
 	local BHA = Instance.new("BoxHandleAdornment")
 	BHA.Parent = workspace
-	BHA.Adornee = part
+	BHA.Adornee = workspace
 	BHA.CFrame = CFrame
 	BHA.Shading = Enum.AdornShading.AlwaysOnTop
 	BHA.ZIndex = 1
@@ -300,11 +300,10 @@ game:GetService("RunService").Heartbeat:Connect(function()
 
 		local Direction = End - Start
 		local Distance = Direction.Magnitude
-		local PointEnd = Part.CFrame:PointToObjectSpace(End)
 
 		Tracer.Transparency = Transparency
 		Tracer.Size = Vector3.new(Thickness, Thickness, Distance)
-		Tracer.CFrame = CFrame.lookAt(Vector3.new(0,Offset,0), PointEnd) * CFrame.new(0,0,-Distance/2)
+		Tracer.CFrame = CFrame.lookAt(Start, End) * CFrame.new(0,0,-Distance/2)
 	end
 end)
 
@@ -319,6 +318,7 @@ function TraceObject(Part, TargetPart, Offset, Thickness, Transparency, Sides, R
 		local Length = 2 * Radius * math.tan(math.pi / Sides)
 
 		local Circle = CreateBHA(TargetPart, CFrame.new(math.cos(math.rad(Angle)) * Radius, CircleOffset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length), Transparency)
+		Circle.Adornee = TargetPart
 
 		table.insert(Circles, Circle)
 	end
