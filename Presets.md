@@ -216,8 +216,31 @@ function CreateBHA(part, CFrame, Size)
 	return BHA
 end
 
+function TraceObject(Part, TargetPart, Offset, TargetOffset, Thickness, Transparency)
+	local Tracer = CreateBHA(Part, CFrame.new(0,0,0), Vector3.new(0,0,0))
+	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, TargetOffset = TargetOffset, Thickness = Thickness, Transparency = Transparency}
+	table.insert(Tracers, Table)
+	return Table
+end
+
+function DeleteTracer(Tracer)
+		Tracer.Tracer:Destroy()
+	
+		for i, v in ipairs(Tracers) do
+			if Tracer == v then
+			table.remove(Tracers, i)
+		end
+	end
+end
+
 game:GetService("RunService").Heartbeat:Connect(function()
 	for _, Data in ipairs(Tracers) do
+		
+		if not Data.Part:IsDescendantOf(game) or not Data.TargetPart:IsDescendantOf(game) then
+			DeleteTracer(Data)
+			continue
+		end
+		
 		local Tracer = Data.Tracer
 		local Part = Data.Part
 		local TargetPart = Data.TargetPart
@@ -236,20 +259,6 @@ game:GetService("RunService").Heartbeat:Connect(function()
 		Tracer.CFrame = CFrame.lookAt(Start, End) * CFrame.new(0,0,-Distance / 2)
 	end
 end)
-
-function TraceObject(Part, TargetPart, Offset, TargetOffset, Thickness, Transparency)
-	local Tracer = CreateBHA(Part, CFrame.new(0,0,0), Vector3.new(0,0,0))
-	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, TargetOffset = TargetOffset, Thickness = Thickness, Transparency = Transparency}
-	table.insert(Tracers, Table)
-	return Table
-end
-
-function DeleteTracer(Tracer)
-	for i, Data in ipairs(Tracers) do
-		Data.Tracer:Destroy()
-		table.remove(Tracers, i)
-	end
-end
 ```
 
 ## PART, TARGET, OFFSET, TARGETOFFSET, THICKNESS, TRANSPARENCY
