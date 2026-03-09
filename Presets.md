@@ -309,7 +309,7 @@ end
 function DeleteTracer(Tracer)
 		Tracer.Tracer:Destroy()
 
-		for _, Parts in Tracer.Circles do
+		for _, Parts in ipairs(Tracer.Circles) do
 			Parts:Destroy()
 		end
 
