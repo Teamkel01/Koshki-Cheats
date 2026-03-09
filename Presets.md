@@ -594,7 +594,7 @@ function CreatePath(HumanoidRootPart, EndPos, WaypointSpacing, Offset, Thickness
 end
 ```
 
-## T
+## HUMANOIDROOTPART, END POSITION, PATHFINDING SPACING, OFFSET, THICKNESS, TRANSPARENCY, SIDES, RADIUS, CIRCLE, OFFSET
 
 ## SPEED
 
