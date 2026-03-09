@@ -364,6 +364,237 @@ end)
 local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, -3, 0.025, 0, 100, 3, 0)
 ```
 
+## PATHFINDING TRACER WITH CIRCLE
+
+```lua
+local Paths = {}
+local ActiveTracers = {}
+local Tracers = {}
+
+function CreateBHA(part, CFrame, Size)
+	local BHA = Instance.new("BoxHandleAdornment")
+	BHA.Parent = workspace
+	BHA.Adornee = workspace
+	BHA.CFrame = CFrame
+	BHA.Shading = Enum.AdornShading.AlwaysOnTop
+	BHA.ZIndex = 1
+	BHA.Size = Size
+	BHA.Color3 = Color3.fromRGB(255,255,255)
+
+	return BHA
+end
+
+function TraceObject(Part, TargetPart, Offset, Thickness, Transparency, Sides, Radius, CircleOffset)
+	local Tracer = CreateBHA(Part, CFrame.new(0,0,0), Vector3.new(0,0,0))
+
+	local Circles = {}
+
+	for i = 1, Sides do
+		local Angle = 360 / Sides * i
+		local Rotation = -360 / Sides * i
+		local Length = 2 * Radius * math.tan(math.pi / Sides)
+
+		local Circle = CreateBHA(TargetPart, CFrame.new(math.cos(math.rad(Angle)) * Radius, CircleOffset ,math.sin(math.rad(Angle)) * Radius) * CFrame.Angles(0,math.rad(Rotation),0), Vector3.new(Thickness,Thickness,Length), Transparency)
+		Circle.Adornee = TargetPart
+
+		table.insert(Circles, Circle)
+	end
+
+	local Table = {Tracer = Tracer, Part = Part, TargetPart = TargetPart, Offset = Offset, Thickness = Thickness, Transparency = Transparency, Circles = Circles, Radius = Radius, CircleOffset = CircleOffset}
+	table.insert(Tracers, Table)
+	return Table
+end
+
+function DeleteTracer(Tracer)
+	Tracer.Tracer:Destroy()
+
+	for _, Parts in ipairs(Tracer.Circles) do
+		Parts:Destroy()
+	end
+
+	for i, v in ipairs(Tracers) do
+		if Tracer == v then
+			table.remove(Tracers, i)
+		end
+	end
+end
+
+function RecalculatePath(PathIndex)
+	local Data = Paths[PathIndex]
+	if not Data then return end
+	
+	for _, wp in ipairs(Data.Waypoints) do
+		if wp and wp.Parent then
+			wp:Destroy()
+		end
+	end
+	
+	local PathfindingService = game:GetService("PathfindingService")
+
+	local Path = PathfindingService:CreatePath()
+	Path:ComputeAsync(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position, Data.EndPos)
+
+	if Path.Status ~= Enum.PathStatus.Success then
+		return
+	end
+
+	local Waypoints = Path:GetWaypoints()
+	local WaypointsTable = {}
+
+	for i = 1, #Waypoints, Data.WaypointSpacing do
+
+		local Part = Instance.new("Part")
+		Part.Size = Vector3.new(1,1,1)
+		Part.Position = Waypoints[i].Position
+		Part.Anchored = true
+		Part.CanCollide = false
+		Part.Transparency = 1
+		Part.Parent = workspace
+
+		table.insert(WaypointsTable, Part)
+
+		if i + Data.WaypointSpacing > #Waypoints and i ~= #Waypoints then
+			local Part = Instance.new("Part")
+			Part.Size = Vector3.new(1,1,1)
+			Part.Position = Waypoints[#Waypoints].Position
+			Part.Anchored = true
+			Part.CanCollide = false
+			Part.Transparency = 1
+			Part.Parent = workspace
+
+			table.insert(WaypointsTable, Part)
+		end
+	end
+	
+	Data.Waypoints = WaypointsTable
+	Data.CurrentIndex = 1
+end
+
+function UpdatePath()
+	if #Paths > 0 then
+		for PathIndex, Path in ipairs(Paths) do
+			local CurrentIndex = Path.CurrentIndex or 1
+			local CurrentWaypoint = Path.Waypoints[CurrentIndex]
+
+			if CurrentWaypoint then
+				local Distance = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - CurrentWaypoint.Position).Magnitude
+
+				if Distance <= Path.Radius + 1 then
+					Path.CurrentIndex = CurrentIndex + 1
+					CurrentWaypoint = Path.Waypoints[Path.CurrentIndex]
+				end
+				
+				if Distance > Path.WaypointSpacing * 5 then
+					RecalculatePath(PathIndex)
+				end
+
+				if not CurrentWaypoint then
+					if ActiveTracers[PathIndex] then
+						DeleteTracer(ActiveTracers[PathIndex])
+						ActiveTracers[PathIndex] = nil
+					end
+					table.remove(Paths, PathIndex)
+					table.remove(ActiveTracers, PathIndex)
+					return
+				end
+
+				if ActiveTracers[PathIndex] then
+					if ActiveTracers[PathIndex].TargetPart ~= CurrentWaypoint then
+						DeleteTracer(ActiveTracers[PathIndex])
+						ActiveTracers[PathIndex] = nil
+					end
+				end
+
+				if not ActiveTracers[PathIndex] then
+					ActiveTracers[PathIndex] = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, CurrentWaypoint, Path.Offset, Path.Thickness, Path.Transparency, Path.Sides, Path.Radius, Path.CircleOffset)
+				end
+			end
+		end
+	end
+end
+
+
+game:GetService("RunService").Heartbeat:Connect(function()
+	UpdatePath()
+
+	for _, Data in ipairs(Tracers) do
+
+		if not Data.Part:IsDescendantOf(game) or not Data.TargetPart:IsDescendantOf(game) then
+			DeleteTracer(Data)
+			continue
+		end
+
+		local Tracer = Data.Tracer
+		local Part = Data.Part
+		local TargetPart = Data.TargetPart
+		local Offset = Data.Offset
+		local Thickness = Data.Thickness
+		local Transparency = Data.Transparency
+		local Radius = Data.Radius
+		local CircleOffset = Data.CircleOffset
+
+		local Start = Part.Position + Vector3.new(0,Offset,0)
+		local TargetPos = TargetPart.Position + Vector3.new(0,CircleOffset,0)
+
+		local FlatDir = (Start - TargetPos) * Vector3.new(1,0,1)
+
+		if FlatDir.Magnitude > 0 then
+			FlatDir = FlatDir.Unit
+		end
+
+		local End = TargetPos + FlatDir * Radius
+
+		local Direction = End - Start
+		local Distance = Direction.Magnitude
+
+		Tracer.Transparency = Transparency
+		Tracer.Size = Vector3.new(Thickness, Thickness, Distance)
+		Tracer.CFrame = CFrame.lookAt(Start, End) * CFrame.new(0,0,-Distance/2)
+	end
+end)
+
+function CreatePath(HumanoidRootPart, EndPos, WaypointSpacing, Offset, Thickness, Transparency, Sides, Radius, CircleOffset)
+	local PathfindingService = game:GetService("PathfindingService")
+
+	local Path = PathfindingService:CreatePath()
+	Path:ComputeAsync(HumanoidRootPart.Position, EndPos)
+
+	if Path.Status ~= Enum.PathStatus.Success then
+		return
+	end
+
+	local Waypoints = Path:GetWaypoints()
+	local WaypointsTable = {}
+
+	for i = 1, #Waypoints, WaypointSpacing do
+
+		local Part = Instance.new("Part")
+		Part.Size = Vector3.new(1,1,1)
+		Part.Position = Waypoints[i].Position
+		Part.Anchored = true
+		Part.CanCollide = false
+		Part.Transparency = 1
+		Part.Parent = workspace
+
+		table.insert(WaypointsTable, Part)
+
+		if i + WaypointSpacing > #Waypoints and i ~= #Waypoints then
+			local Part = Instance.new("Part")
+			Part.Size = Vector3.new(1,1,1)
+			Part.Position = Waypoints[#Waypoints].Position
+			Part.Anchored = true
+			Part.CanCollide = false
+			Part.Transparency = 1
+			Part.Parent = workspace
+
+			table.insert(WaypointsTable, Part)
+		end
+	end
+	table.insert(Paths, {Waypoints = WaypointsTable, EndPos = EndPos, WaypointSpacing = WaypointSpacing, Offset = Offset, Thickness = Thickness, Transparency = Transparency, Sides = Sides, Radius = Radius, CircleOffset = CircleOffset})
+end
+```
+
+## T
 
 ## SPEED
 
