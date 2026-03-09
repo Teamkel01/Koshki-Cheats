@@ -596,6 +596,10 @@ end
 
 ## HUMANOIDROOTPART, END POSITION, PATHFINDING SPACING, OFFSET, THICKNESS, TRANSPARENCY, SIDES, RADIUS, CIRCLE, OFFSET
 
+```lua
+CreatePath(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, Vector3.new(0,0,0), 5, -3, 0.025, 0, 100, 3, 0)
+```
+
 ## SPEED
 
 ```lua
