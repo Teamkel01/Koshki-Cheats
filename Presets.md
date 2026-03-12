@@ -1,4 +1,4 @@
-## VISUALS
+## Visuals
 
 <details>
 <summary>Outline</summary>
@@ -709,6 +709,8 @@ local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), workspace.End, 2, Color3.
 ```
 
 </details>
+
+## Movement
 
 <details>
 <summary>Speed</summary>
