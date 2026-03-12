@@ -638,7 +638,7 @@ CreatePath(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, Ve
 </details>
 
 <details>
-<summary>Gui Tracer</summary>
+<summary>2D Gui Tracer</summary>
 
 ## GUI TRACER
 
