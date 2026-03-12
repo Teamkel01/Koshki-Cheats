@@ -422,13 +422,14 @@ end
 function RecalculatePath(PathIndex)
 	local Data = Paths[PathIndex]
 	if not Data then return end
-	
-	for _, wp in ipairs(Data.Waypoints) do
+
+	for i, wp in ipairs(Data.Waypoints) do
 		if wp and wp.Parent then
 			wp:Destroy()
 		end
+		Data.Waypoints[i] = nil
 	end
-	
+
 	local PathfindingService = game:GetService("PathfindingService")
 
 	local Path = PathfindingService:CreatePath()
@@ -465,7 +466,7 @@ function RecalculatePath(PathIndex)
 			table.insert(WaypointsTable, Part)
 		end
 	end
-	
+
 	Data.Waypoints = WaypointsTable
 	Data.CurrentIndex = 1
 end
@@ -483,7 +484,7 @@ function UpdatePath()
 					Path.CurrentIndex = CurrentIndex + 1
 					CurrentWaypoint = Path.Waypoints[Path.CurrentIndex]
 				end
-				
+
 				if Distance > Path.WaypointSpacing * 5 then
 					RecalculatePath(PathIndex)
 				end
