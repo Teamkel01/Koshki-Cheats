@@ -50,13 +50,16 @@ function DeleteOutline(Outline)
 end
 ```
 
-</details>
-
 ## PART, THICKNESS
 
 ```lua
 local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 0.025)
 ```
+
+</details>
+
+<details>
+<summary>OUTLINE</summary>
 
 ## FILLED OUTLINE
 
@@ -115,6 +118,11 @@ end
 ```lua
 local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 0.025)
 ```
+
+</details>
+
+<details>
+<summary>OUTLINE</summary>
 
 ## CIRCLE
 
@@ -192,6 +200,11 @@ end
 ```lua
 local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 100, 10, 0.025, 0, 0)
 ```
+
+</details>
+
+<details>
+<summary>OUTLINE</summary>
 
 ## UPDATE CIRCLE
 
@@ -271,6 +284,11 @@ end)
 ```lua
 local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, -3, 0, 0.025, 0)
 ```
+
+</details>
+
+<details>
+<summary>OUTLINE</summary>
 
 ## TRACER WITH CIRCLE
 
@@ -370,6 +388,11 @@ end)
 ```lua
 local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, -3, 0.025, 0, 100, 3, 0)
 ```
+
+</details>
+
+<details>
+<summary>OUTLINE</summary>
 
 ## PATHFINDING TRACER WITH CIRCLE
 
@@ -610,6 +633,11 @@ end
 CreatePath(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, Vector3.new(0,0,0), 5, -3, 0.025, 0, 100, 3, 0)
 ```
 
+</details>
+
+<details>
+<summary>OUTLINE</summary>
+
 ## GUI TRACER
 
 ```lua
@@ -678,7 +706,10 @@ end)
 local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), workspace.End, 2, Color3.fromRGB(255,255,255))
 ```
 
+</details>
 
+<details>
+<summary>OUTLINE</summary>
 
 ## SPEED
 
@@ -705,3 +736,5 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	end
 end)
 ```
+
+</details>
