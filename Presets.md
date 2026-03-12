@@ -711,7 +711,7 @@ local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), nil, 2, Color3.fromRGB(25
 </details>
 
 <details>
-<summary>Speed</summary>
+<summary>3D GUI TRACER</summary>
 
 ## 3D GUI TRACER
 
@@ -776,8 +776,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
 end)
 ```
 
+## START, TARGET, THICKNESS, COLOUR
+
 ```lua
-local Tracer = GuiTraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, workspace.End, 2, Color3.fromRGB(255,255,255))
+local Tracer = GuiTraceObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, nil, 2, Color3.fromRGB(255,255,255))
 ```
 
 </details>
