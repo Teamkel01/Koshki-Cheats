@@ -607,7 +607,7 @@ end
 CreatePath(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, Vector3.new(0,0,0), 5, -3, 0.025, 0, 100, 3, 0)
 ```
 
-##GUI TRACER
+## GUI TRACER
 
 ```lua
 local Tracers = {}
