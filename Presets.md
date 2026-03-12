@@ -204,9 +204,11 @@ Circle = UpdateCircle(game:GetService("Players").LocalPlayer.Character.HumanoidR
 local Tracers = {}
 
 function CreateBHA(part, CFrame, Size)
+	local Terrain = workspace:FindFirstChildOfClass("Terrain")
+	
 	local BHA = Instance.new("BoxHandleAdornment")
-	BHA.Parent = workspace
-	BHA.Adornee = workspace
+	BHA.Parent = Terrain
+	BHA.Adornee = Terrain
 	BHA.CFrame = CFrame
 	BHA.Shading = Enum.AdornShading.AlwaysOnTop
 	BHA.ZIndex = 1
@@ -273,9 +275,11 @@ local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.Huma
 local Tracers = {}
 
 function CreateBHA(part, CFrame, Size)
+	local Terrain = workspace:FindFirstChildOfClass("Terrain")
+	
 	local BHA = Instance.new("BoxHandleAdornment")
-	BHA.Parent = workspace
-	BHA.Adornee = workspace
+	BHA.Parent = Terrain
+	BHA.Adornee = Terrain
 	BHA.CFrame = CFrame
 	BHA.Shading = Enum.AdornShading.AlwaysOnTop
 	BHA.ZIndex = 1
