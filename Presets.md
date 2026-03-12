@@ -1,7 +1,9 @@
 ## VISUALS
 
 <details>
-<summary>OUTLINE</summary>
+<summary>Outline</summary>
+
+## OUTLINE
 
 ```lua
 function CreateBHA(part, CFrame, Size)
@@ -59,7 +61,7 @@ local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.H
 </details>
 
 <details>
-<summary>OUTLINE</summary>
+<summary>Filled Outline</summary>
 
 ## FILLED OUTLINE
 
@@ -122,7 +124,7 @@ local Outline = OutlineObject(game:GetService("Players").LocalPlayer.Character.H
 </details>
 
 <details>
-<summary>OUTLINE</summary>
+<summary>Circle</summary>
 
 ## CIRCLE
 
@@ -201,11 +203,6 @@ end
 local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 100, 10, 0.025, 0, 0)
 ```
 
-</details>
-
-<details>
-<summary>OUTLINE</summary>
-
 ## UPDATE CIRCLE
 
 ## PART, SIDES, RADIUS, THICKNESS, OFFSET, TRANSPARENCY, CIRCLE
@@ -213,6 +210,11 @@ local Circle = CircleObject(game:GetService("Players").LocalPlayer.Character.Hum
 ```lua
 Circle = UpdateCircle(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, 100, 10, 0.025, 0, 0, Circle)
 ```
+
+</details>
+
+<details>
+<summary>Tracer</summary>
 
 ## TRACER
 
@@ -288,7 +290,7 @@ local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.Huma
 </details>
 
 <details>
-<summary>OUTLINE</summary>
+<summary>Tracer With Circle</summary>
 
 ## TRACER WITH CIRCLE
 
@@ -392,7 +394,7 @@ local Tracer = TraceObject(game:GetService("Players").LocalPlayer.Character.Huma
 </details>
 
 <details>
-<summary>OUTLINE</summary>
+<summary>Pathfinding With Circle</summary>
 
 ## PATHFINDING TRACER WITH CIRCLE
 
@@ -636,7 +638,7 @@ CreatePath(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, Ve
 </details>
 
 <details>
-<summary>OUTLINE</summary>
+<summary>Gui Tracer</summary>
 
 ## GUI TRACER
 
@@ -709,7 +711,7 @@ local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), workspace.End, 2, Color3.
 </details>
 
 <details>
-<summary>OUTLINE</summary>
+<summary>Speed</summary>
 
 ## SPEED
 
