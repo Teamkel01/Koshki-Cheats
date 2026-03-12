@@ -607,6 +607,76 @@ end
 CreatePath(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, Vector3.new(0,0,0), 5, -3, 0.025, 0, 100, 3, 0)
 ```
 
+##GUI TRACER
+
+```lua
+local Tracers = {}
+local Camera = workspace.CurrentCamera
+
+function GuiTraceObject(StartPos, Target, Thickness, Colour)
+	local Screengui = Instance.new("ScreenGui")
+	Screengui.IgnoreGuiInset = true
+	Screengui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+	
+	local Tracer = Instance.new("Frame")
+	Tracer.Parent = Screengui
+	Tracer.BackgroundColor3 = Colour
+	Tracer.BorderSizePixel = 0
+	Tracer.AnchorPoint = Vector2.new(0.5,0.5)
+	
+	local TracerTable = {ScreenGui = Screengui, Tracer = Tracer, StartPos = StartPos, Target = Target, Thickness = Thickness}
+	table.insert(Tracers, TracerTable)
+	
+	return TracerTable
+end
+
+function DeleteTracer(Tracer)
+	for i, Parts in ipairs(Tracers) do
+		if Parts == Tracer then
+			Tracer.ScreenGui:Destroy()
+			table.remove(Tracers, i)
+		end
+	end
+end
+
+game:GetService("RunService").RenderStepped:Connect(function()
+	local Viewport = Camera.ViewportSize
+	
+	for _, Data in ipairs(Tracers) do
+		local Tracer = Data.Tracer
+		local StartPos = Data.StartPos
+		local Target = Data.Target
+		local Thickness = Data.Thickness
+		
+		local screenPos = workspace.CurrentCamera:WorldToViewportPoint(Target.Position)
+		
+		local Start = Vector2.new(StartPos.X.Scale * Viewport.X + StartPos.X.Offset, StartPos.Y.Scale * Viewport.Y + StartPos.Y.Offset)
+		local End = Vector2.new(screenPos.X, screenPos.Y)
+		
+		if screenPos.Z < 0 then
+			End = Start + (Start - End)
+		end
+		
+		local Difference = End - Start
+		local Distance = Difference.Magnitude
+		local Angle = math.deg(math.atan2(Difference.Y,Difference.X))
+		local Middle = (Start + End) / 2
+		
+		Tracer.Position = UDim2.fromOffset(Middle.X, Middle.Y)
+		Tracer.Size = UDim2.fromOffset(Distance, Thickness)
+		Tracer.Rotation = Angle
+	end  
+end)
+```
+
+## START POSITION, TARGET, THICKNESS, COLOUR
+
+```lua
+local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), workspace.End, 2, Color3.fromRGB(255,255,255))
+```
+
+
+
 ## SPEED
 
 ```lua
