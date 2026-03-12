@@ -1,6 +1,7 @@
 ## VISUALS
 
-## OUTLINE
+<details>
+<summary>OUTLINE</summary>
 
 ```lua
 function CreateBHA(part, CFrame, Size)
@@ -48,6 +49,8 @@ function DeleteOutline(Outline)
 	end
 end
 ```
+
+</details>
 
 ## PART, THICKNESS
 
