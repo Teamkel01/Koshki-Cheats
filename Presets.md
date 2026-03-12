@@ -711,7 +711,7 @@ local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), nil, 2, Color3.fromRGB(25
 </details>
 
 <details>
-<summary>3D GUI TRACER</summary>
+<summary>3D Gui Tracer</summary>
 
 ## 3D GUI TRACER
 
