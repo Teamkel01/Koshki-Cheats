@@ -705,7 +705,7 @@ end)
 ## START POSITION, TARGET, THICKNESS, COLOUR
 
 ```lua
-local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), workspace.End, 2, Color3.fromRGB(255,255,255))
+local Tracer = GuiTraceObject(UDim2.new(0.5, 0, 1, 0), nil, 2, Color3.fromRGB(255,255,255))
 ```
 
 </details>
